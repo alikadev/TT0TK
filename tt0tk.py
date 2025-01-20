@@ -19,7 +19,6 @@ def get_formulas(filename):
             if len(line) < 3 or line[0] == "#":
                 continue
             (addr, val) = line.split(" ")
-            print(f"{line}: {addr} -> {val}")
 
             if len(addr) == 0 or len(val) == 0:
                 sys.exit(f"Empty address or value: {line}")
