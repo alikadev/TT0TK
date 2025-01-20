@@ -3,7 +3,7 @@
 import sys
 from sympy.logic.boolalg import to_dnf
 
-__name__ = "TruthTable0 TookKit - v0.1.1"
+__name__ = "TruthTable0 TookKit - v0.1.2"
 __desc__ = "A toolkit for TT0 file format"
 
 def get_formulas(filename):
@@ -15,7 +15,11 @@ def get_formulas(filename):
         seenExpr = []
 
         for line in fp:
-            (addr, val) = line[:-1].split(" ")
+            line = line[:-1]
+            if len(line) < 3 or line[0] == "#":
+                continue
+            (addr, val) = line.split(" ")
+            print(f"{line}: {addr} -> {val}")
 
             if len(addr) == 0 or len(val) == 0:
                 sys.exit(f"Empty address or value: {line}")
@@ -63,18 +67,20 @@ def do_help():
     elif sys.argv[2] == "format":
         print("TT0 format: Truth table description")
         print("  The TT0 format is made to describe a truth table by the most")
-        print("   understandable way possible (for me). No bloat, no specific")
-        print("   program, only a text file with an extension and with and bits")
-        print("   written in it")
+        print("    understandable way possible (for me). No bloat, no specific")
+        print("    program, only a text file with an extension and with and bits")
+        print("    written in it")
         print("  Each line of the file is a line of the truth table.")
+        print("  A line can be a comment if it starts with a '#', empty lines")
+        print("    Are ignored too")
         print("  A line contains an address and a value (binary, any length,")
-        print("   must be the length). The address anv the value are separated")
-        print("   by a single space")
+        print("    must be the length). The address anv the value are separated")
+        print("    by a single space")
         print("  Example: truth table of a (XOR,AND,OR)")
-        print("   00 000")
-        print("   01 101")
-        print("   10 001")
-        print("   11 111")
+        print("    00 000")
+        print("    01 101")
+        print("    10 001")
+        print("    11 111")
     else:
         sys.exit(f"Unknown help page {sys.argv[2]}")
 
